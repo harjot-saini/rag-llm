@@ -31,12 +31,12 @@ def load_all_documents(data_dir: str) -> List[Any]:
     for pdf_file in pdf_files:
         print(f"[DEBUG] Loading PDF: {pdf_file}")
         try:
-            loader = PyPDFLoader(str(pdf_files))
+            loader = PyPDFLoader(str(pdf_file))
             loaded = loader.load()
             print(f"[DEBUG] Loaded {len(loaded)} PDF docs from {pdf_file}")
             documents.extend(loaded)
         except Exception as e:
-            print(f"[ERROR] Failed to load pdf {pdf_file} : {e}")
+            print(f"[ERROR] Failed to load PDF {pdf_file} : {e}")
 
     # TXT files
     txt_files = list(data_path.glob("**/*.txt"))
@@ -44,29 +44,12 @@ def load_all_documents(data_dir: str) -> List[Any]:
     for txt_file in txt_files:
         print(f"[DEBUG] Loading TXT: {txt_file}")
         try:
-            loader = TextLoader(str(txt_files), encoding="utf-8")
+            loader = TextLoader(str(txt_file))
             loaded = loader.load()
             print(f"[DEBUG] Loaded {len(loaded)} TXT docs from {txt_file}")
             documents.extend(loaded)
         except Exception as e:
             print(f"[ERROR] Failed to load TXT {txt_file} : {e}")
-            print(f"Exception Type: {type(e).__name__}") 
-            print(f"Exception Message: {e}") 
-            
-            # 2. Arguments passed to the constructor (usually a tuple containing the message)
-            print(f"Arguments: {e.args}")
-            print("--- Standard Traceback String ---")
-            traceback.print_exc()  # Prints the full stack trace to the console
-            
-            print("\n--- Programmatic Exception Details ---")
-            # Extract the last frame of the traceback (where the error occurred)
-            tb = e.__traceback__
-            summary = traceback.extract_tb(tb)[-1]
-            
-            print(f"File Name: {summary.filename}")
-            print(f"Line Number: {summary.lineno}")
-            print(f"Function Name: {summary.name}")
-            print(f"Code text: {summary.line}")
 
     # CSV files
     csv_files = list(data_path.glob("**/*.csv"))
@@ -74,7 +57,7 @@ def load_all_documents(data_dir: str) -> List[Any]:
     for csv_file in csv_files:
         print(f"[DEBUG] Loading CSV: {csv_file}")
         try:
-            loader = CSVLoader(str(csv_files))
+            loader = CSVLoader(str(csv_file))
             loaded = loader.load()
             print(f"[DEBUG] Loaded {len(loaded)} CSV docs from {csv_file}")
             documents.extend(loaded)
@@ -89,7 +72,7 @@ def load_all_documents(data_dir: str) -> List[Any]:
     for xlsx_file in xlsx_files:
         print(f"[DEBUG] Loading Excel: {xlsx_file}")
         try:
-            loader = UnstructuredExcelLoader(str(xlsx_files))
+            loader = UnstructuredExcelLoader(str(xlsx_file))
             loaded = loader.load()
             print(f"[DEBUG] Loaded {len(loaded)} Excel docs from {xlsx_file}")
             documents.extend(loaded)
@@ -102,7 +85,7 @@ def load_all_documents(data_dir: str) -> List[Any]:
     for docx_file in docx_files:
         print(f"[DEBUG] Loading Word: {docx_file}")
         try:
-            loader = Docx2txtLoader(str(docx_files))
+            loader = Docx2txtLoader(str(docx_file))
             loaded = loader.load()
             print(f"[DEBUG] Loaded {len(loaded)} Word docs from {docx_file}")
             documents.extend(loaded)
@@ -127,7 +110,7 @@ def load_all_documents(data_dir: str) -> List[Any]:
 
 
 # run
-if __name__ == "main":
+if __name__ == "__main__":
     docs = load_all_documents("data")
     print(f"Loaded {len(docs)} documents.")
     print("Example document:", docs[0] if docs else None)
