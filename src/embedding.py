@@ -21,6 +21,7 @@ class EmbeddingPipeline:
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=self.chunk_size,
             chunk_overlap=self.chunk_overlap,
+            length_function=len,
             separators=["\n\n", "\n", " ", ""],
         )
         chunks = splitter.split_documents(documents=documents)
